@@ -27,7 +27,7 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
     size_t num_bytes = data_buff->size();
 
     auto &resp = req_handle->dyn_resp_msgbuf_;
-    resp  =  rpc->alloc_msg_buffer_or_die(num_bytes);
+    resp  =  rpc->alloc_msg_buffer(num_bytes);
     
     std::cout << "Size: " << resp.get_data_size() << std::endl;
     std::cout << "Bytes to sent: " << num_bytes << std::endl;
@@ -36,6 +36,7 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
     sprintf(reinterpret_cast<char*>(resp.buf_), (char*)data_buff->data());
     rpc->enqueue_response(req_handle, &resp);
     std::cout << "ok\n";
+    rpc->free_msg_buffer(resp);
   } else {
     std::cout << "no more batches left\n";
   }
