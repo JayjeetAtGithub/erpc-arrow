@@ -8,7 +8,9 @@ erpc::MsgBuffer nb_req;
 erpc::MsgBuffer nb_resp;
 
 void init_func(void *, void *) { printf("%s\n", init_resp.buf_); }
-void nb_func(void *, void *) { std::cout << "Recieved something" << std::endl; }
+void nb_func(void *, void *) { 
+  std::cout << "Recieved " << nb_resp->get_data_size() << " bytes of data" << std::endl; 
+}
 
 void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *) {}
 
