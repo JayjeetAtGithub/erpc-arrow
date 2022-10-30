@@ -23,14 +23,18 @@ int main() {
 
   while (!rpc->is_connected(session_num)) rpc->run_event_loop_once();
 
-  init_req = rpc->alloc_msg_buffer_or_die(kSmallMsgSize);
-  init_resp = rpc->alloc_msg_buffer_or_die(kSmallMsgSize);
+  init_req = rpc->alloc_msg_buffer(kSmallMsgSize);
+  init_resp = rpc->alloc_msg_buffer(kSmallMsgSize);
   rpc->enqueue_request(session_num, kInitRpc, &init_req, &init_resp, init_func, nullptr);
-  
+  rpc->free_msg_buffer(init_req);
+  rpc->free_msg_buffer(init_resp);
+
   for (int i = 0; i < 10; i++) {  
-  	nb_req = rpc->alloc_msg_buffer_or_die(kLargeMsgSize);
-  	nb_resp = rpc->alloc_msg_buffer_or_die(kLargeMsgSize);
+  	nb_req = rpc->alloc_msg_buffer(kLargeMsgSize);
+  	nb_resp = rpc->alloc_msg_buffer(kLargeMsgSize);
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
+    rpc->free_msg_buffer(nb_req);
+    rpc->free_msg_buffer(nb_resp);
   }
   rpc->run_event_loop(100000);
 
