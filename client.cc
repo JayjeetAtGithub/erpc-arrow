@@ -32,7 +32,7 @@ int main() {
   	nb_resp = rpc->alloc_msg_buffer_or_die(kLargeMsgSize);
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
   }
-  rpc->run_event_loop(100);
+  rpc->run_event_loop(2000);
 
   delete rpc;
 }
