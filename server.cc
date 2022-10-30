@@ -37,6 +37,8 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
     sprintf(reinterpret_cast<char*>(resp.buf_), (char*)data_buff->data());
     rpc->enqueue_response(req_handle, &resp);
     std::cout << "ok\n";
+  } else {
+    std::cout << "no more batches left\n";
   }
 }
 
