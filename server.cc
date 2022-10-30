@@ -15,7 +15,6 @@ void init_req_handler(erpc::ReqHandle *req_handle, void *) {
 }
 
 void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
-  std::cout << "Entered next batch" << std::endl;
   std::shared_ptr<arrow::RecordBatch> batch;
   if (reader->ReadNext(&batch).ok() && batch != nullptr) {
     std::shared_ptr<arrow::Array> col_arr = batch->column(0);
@@ -29,18 +28,17 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
     auto &resp = req_handle->dyn_resp_msgbuf_;
     resp  =  rpc->alloc_msg_buffer(num_bytes);
     
-    std::cout << "Size: " << resp.get_data_size() << std::endl;
-    std::cout << "Bytes to sent: " << num_bytes << std::endl;
-    
     rpc->resize_msg_buffer(&resp, num_bytes);
     sprintf(reinterpret_cast<char*>(resp.buf_), (char*)data_buff->data());
     rpc->enqueue_response(req_handle, &resp);
     std::cout << "ok\n";
     rpc->free_msg_buffer(resp);
   } else {
-    std::cout << "no more batches left\n";
+    auto &resp = req_handle->pre_resp_msgbuf_;
+    rpc->resize_msg_buffer(&resp, kMsgSize);
+    sprintf(reinterpret_cast<char *>(resp.buf_), "done");
+    rpc->enqueue_response(req_handle, &resp);
   }
-  std::cout << "Exited next batch" << std::endl;
 }
 
 int main() {
