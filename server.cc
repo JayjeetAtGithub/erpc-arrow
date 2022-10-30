@@ -6,17 +6,16 @@ erpc::Rpc<erpc::CTransport> *rpc;
 std::shared_ptr<arrow::RecordBatchReader> reader;
 
 void init_req_handler(erpc::ReqHandle *req_handle, void *) {
-  std::cout << "Called InitReqHandler\n";
   cp::ExecContext exec_ctx;
   reader = ScanDataset(exec_ctx, "dataset", "100").ValueOrDie();
   auto &resp = req_handle->pre_resp_msgbuf_;
   rpc->resize_msg_buffer(&resp, kSmallMsgSize);
   sprintf(reinterpret_cast<char *>(resp.buf_), "success");
   rpc->enqueue_response(req_handle, &resp);
-  std::cout << "Enqueued Init Response\n";
 }
 
 void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
+  std::cout << "Entered next batch" << std::endl;
   std::shared_ptr<arrow::RecordBatch> batch;
   if (reader->ReadNext(&batch).ok() && batch != nullptr) {
     std::shared_ptr<arrow::Array> col_arr = batch->column(0);
@@ -40,6 +39,7 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
   } else {
     std::cout << "no more batches left\n";
   }
+  std::cout << "Exited next batch" << std::endl;
 }
 
 int main() {
