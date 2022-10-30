@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 #include "rpc.h"
 
 static const std::string kServerHostname = "node1";
