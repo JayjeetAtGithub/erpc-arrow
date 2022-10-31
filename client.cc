@@ -30,6 +30,7 @@ int main() {
   rpc->enqueue_request(session_num, kInitRpc, &init_req, &init_resp, init_func, nullptr);
   rpc->free_msg_buffer(init_req);
   rpc->free_msg_buffer(init_resp);
+  rpc->run_event_loop_once();
 
   for (int i = 0; i < 2; i++) {  
   	nb_req = rpc->alloc_msg_buffer(kLargeMsgSize);
@@ -37,9 +38,8 @@ int main() {
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
     rpc->free_msg_buffer(nb_req);
     rpc->free_msg_buffer(nb_resp);
+    rpc->run_event_loop_once();
   }
-
   
-
   delete rpc;
 }
