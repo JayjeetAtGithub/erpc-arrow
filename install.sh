@@ -6,7 +6,7 @@ git clone https://github.com/erpc-io/eRPC
 
 git clone https://github.com/linux-rdma/rdma-core
 cd rdma-core
-apt-get install -y build-essential cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev ninja-build pkg-config valgrind python3-dev cython3 python3-docutils pandoc
+apt-get install -y build-essential cmake gcc libibverbs-dev ibverbs-utils libudev-dev libnl-3-dev libnl-route-3-dev ninja-build pkg-config valgrind python3-dev cython3 python3-docutils pandoc
 cmake .
 make -j32 install
 cd ..
