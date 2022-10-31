@@ -23,5 +23,4 @@ make -j32 install
 git clone https://github.com/JayjeetAtGithub/erpc-arrow
 cd erpc-arrow
 ./deploy_arrow.sh
-cmake -DTRANSPORT=infiniband .
 make infiniband
