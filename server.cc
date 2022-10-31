@@ -10,7 +10,7 @@ void init_req_handler(erpc::ReqHandle *req_handle, void *) {
   reader = ScanDataset(exec_ctx, "dataset", "100").ValueOrDie();
   auto &resp = req_handle->pre_resp_msgbuf_;
   rpc->resize_msg_buffer(&resp, kSmallMsgSize);
-  sprintf(reinterpret_cast<char *>(resp.buf_), "init");
+  sprintf(reinterpret_cast<char *>(resp.buf_), "i");
   rpc->enqueue_response(req_handle, &resp);
 }
 
