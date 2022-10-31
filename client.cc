@@ -30,7 +30,6 @@ int main() {
   rpc->enqueue_request(session_num, kInitRpc, &init_req, &init_resp, init_func, nullptr);
   rpc->free_msg_buffer(init_req);
   rpc->free_msg_buffer(init_resp);
-  rpc->run_event_loop(1000);
 
   for (int i = 0; i < 2; i++) {  
   	nb_req = rpc->alloc_msg_buffer(kLargeMsgSize);
