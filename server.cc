@@ -17,6 +17,7 @@ void init_req_handler(erpc::ReqHandle *req_handle, void *) {
 void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
   std::shared_ptr<arrow::RecordBatch> batch;
   if (reader->ReadNext(&batch).ok() && batch != nullptr) {
+    std::cout << batch->num_rows() << std::endl;
     std::shared_ptr<arrow::Array> col_arr = batch->column(0);
     arrow::Type::type type = col_arr->type_id();
     int64_t null_count = col_arr->null_count();
