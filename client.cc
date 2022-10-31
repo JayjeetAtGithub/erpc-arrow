@@ -13,10 +13,10 @@ void nb_func(void *, void *) {
     delete rpc;
     exit(0);
   } else {
-    // std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_, nb_resp.get_data_size());
-    // std::shared_ptr<arrow::DataType> type = schema->field(0)->type();
-    // std::shared_ptr<arrow::Array> col_arr = 
-    //   std::make_shared<arrow::PrimitiveArray>(type, num_rows, std::move(buf));
+    std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_, nb_resp.get_data_size());
+    std::shared_ptr<arrow::DataType> type = schema->field(0)->type();
+    std::shared_ptr<arrow::Array> col_arr = 
+      std::make_shared<arrow::PrimitiveArray>(type, 131072, std::move(buf));
     std::cout << nb_resp.get_data_size() << std::endl;
   }
 }
@@ -40,7 +40,7 @@ int main() {
   rpc->free_msg_buffer(init_req);
   rpc->free_msg_buffer(init_resp);
 
-  for (int i = 0; i < 30; i++) {  
+  for (int i = 0; i < 5; i++) {  
   	nb_req = rpc->alloc_msg_buffer(kLargeMsgSize);
   	nb_resp = rpc->alloc_msg_buffer(kLargeMsgSize);
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
