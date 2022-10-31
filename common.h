@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <arrow/schema.h>
+#include <arrow/type.h>
 
 #include "rpc.h"
 
