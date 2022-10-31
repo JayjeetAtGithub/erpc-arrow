@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-git clone https://github.com/erpc-io/eRPC
+git clone https://github.com/JayjeetAtGithub/eRPC
 ./eRPC/scripts/packages/ubuntu18/required.sh
 
 git clone https://github.com/linux-rdma/rdma-core
