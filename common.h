@@ -1,6 +1,10 @@
 #include <iostream>
 
-#include <arrow/type.h>
+#include <arrow/array/array_base.h>
+#include <arrow/array/array_nested.h>
+#include <arrow/array/data.h>
+#include <arrow/array/util.h>
+#include <arrow/api.h>
 
 #include "rpc.h"
 
