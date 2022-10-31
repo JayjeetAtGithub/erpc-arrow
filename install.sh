@@ -20,9 +20,8 @@ cd eRPC
 cmake . -DPERF=OFF -DTRANSPORT=infiniband
 make -j32 install
 
-./deploy_arrow.sh
-
 git clone https://github.com/JayjeetAtGithub/erpc-arrow
 cd erpc-arrow
+./deploy_arrow.sh
 cmake -DTRANSPORT=infiniband .
 make infiniband
