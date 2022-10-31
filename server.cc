@@ -50,6 +50,6 @@ int main() {
 
   rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, nullptr);
   while (true) {
-    rpc.run_event_loop(1000);
+    rpc->run_event_loop(1000);
   }
 }
