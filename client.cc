@@ -7,7 +7,7 @@ erpc::MsgBuffer init_resp;
 erpc::MsgBuffer nb_req;
 erpc::MsgBuffer nb_resp;
 
-void init_func(void *, void *) { printf("%s\n", init_resp.buf_); }
+void init_func(void *, void *) { std::cout << "Scan Started" }
 void nb_func(void *, void *) { 
   if (nb_resp.get_data_size() == kSmallMsgSize) {
     delete rpc;
@@ -42,6 +42,9 @@ int main() {
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
     rpc->free_msg_buffer(nb_req);
     rpc->free_msg_buffer(nb_resp);
+  }
+
+  while (true) {
     rpc->run_event_loop(100);
   }
 }
