@@ -38,7 +38,7 @@ int main() {
     rpc->free_msg_buffer(nb_req);
     rpc->free_msg_buffer(nb_resp);
   }
-  rpc->run_event_loop(1000);
+  rpc->run_event_loop(10000);
 
   delete rpc;
 }
