@@ -6,11 +6,11 @@ erpc::Rpc<erpc::CTransport> *rpc;
 std::shared_ptr<arrow::RecordBatchReader> reader;
 
 void init_req_handler(erpc::ReqHandle *req_handle, void *) {
-  cp::ExecContext exec_ctx;
-  reader = ScanDataset(exec_ctx, "dataset", "100").ValueOrDie();
+  // cp::ExecContext exec_ctx;
+  // reader = ScanDataset(exec_ctx, "dataset", "100").ValueOrDie();
   auto &resp = req_handle->pre_resp_msgbuf_;
   rpc->resize_msg_buffer(&resp, kSmallMsgSize);
-  sprintf(reinterpret_cast<char *>(resp.buf_), "success");
+  sprintf(reinterpret_cast<char *>(resp.buf_), "init");
   rpc->enqueue_response(req_handle, &resp);
 }
 
