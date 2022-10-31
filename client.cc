@@ -9,7 +9,6 @@ erpc::MsgBuffer nb_resp;
 
 void init_func(void *, void *) { printf("%s\n", init_resp.buf_); }
 void nb_func(void *, void *) { 
-  std::cout << reinterpret_cast<char *>(nb_resp.buf_) << std::endl;
   if (nb_resp.get_data_size() == kSmallMsgSize) {
     delete rpc;
     exit(0);
