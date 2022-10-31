@@ -2,7 +2,7 @@
 set -ex
 
 git clone https://github.com/erpc-io/eRPC
-./eRPC/scripts/packages/ubuntu18/packages.sh
+./eRPC/scripts/packages/ubuntu18/required.sh
 
 git clone https://github.com/linux-rdma/rdma-core
 cd rdma-core
