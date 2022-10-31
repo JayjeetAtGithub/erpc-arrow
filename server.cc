@@ -35,7 +35,7 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
   } else {
     auto &resp = req_handle->pre_resp_msgbuf_;
     rpc->resize_msg_buffer(&resp, kSmallMsgSize);
-    sprintf(reinterpret_cast<char *>(resp.buf_), "success");
+    sprintf(reinterpret_cast<char *>(resp.buf_), "x");
     rpc->enqueue_response(req_handle, &resp);
   }
 }

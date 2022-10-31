@@ -9,7 +9,12 @@ erpc::MsgBuffer nb_resp;
 
 void init_func(void *, void *) { printf("%s\n", init_resp.buf_); }
 void nb_func(void *, void *) { 
-  std::cout << "Recieved " << nb_resp.get_data_size() << " bytes of data" << std::endl; 
+  if (reinterpret_cast<char *>(nb_resp.buf_) == "x") {
+    delete rpc;
+    exit(0);
+  } else {
+    std::cout << nb_resp.get_data_size() << std::endl;
+  }
 }
 
 void sm_handler(int, erpc::SmEventType, erpc::SmErrType, void *) {}
@@ -39,6 +44,4 @@ int main() {
     rpc->free_msg_buffer(nb_resp);
     rpc->run_event_loop(100);
   }
-
-  delete rpc;
 }
