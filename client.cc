@@ -37,7 +37,7 @@ int main() {
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
     rpc->free_msg_buffer(nb_req);
     rpc->free_msg_buffer(nb_resp);
-    rpc->run_event_loop_once();
+    rpc->run_event_loop(100);
   }
 
   delete rpc;
