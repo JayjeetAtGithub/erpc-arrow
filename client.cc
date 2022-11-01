@@ -7,10 +7,16 @@ erpc::MsgBuffer init_resp;
 erpc::MsgBuffer nb_req;
 erpc::MsgBuffer nb_resp;
 
-void init_func(void *, void *) { std::cout << "Scan Started" << std::endl; }
+int64_t total_rows = 0;
+
+void init_func(void *, void *) { 
+  total_rows = 0;
+  std::cout << "Scan Started" << std::endl; 
+}
+
 void nb_func(void *, void *) { 
   if (nb_resp.get_data_size() == kSmallMsgSize) {
-    std::cout << "Scan Finished" << std::endl;
+    std::cout << "Read " << total_rows << " rows" << std::endl;
     delete rpc;
     exit(0);
   } else {
@@ -21,8 +27,7 @@ void nb_func(void *, void *) {
     std::shared_ptr<arrow::DataType> type = schema->field(3)->type();
     std::shared_ptr<arrow::Array> col_arr = 
       std::make_shared<arrow::PrimitiveArray>(type, num_rows, std::move(buf));
-    // std::cout << nb_resp.get_data_size() << std::endl;
-    // std::cout << col_arr->ToString() << std::endl;
+    total_rows += num_rows;
   }
 }
 
@@ -51,7 +56,6 @@ int main() {
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
     rpc->free_msg_buffer(nb_req);
     rpc->free_msg_buffer(nb_resp);
-    std::cout << "Batch " << i << " Recieved" << std::endl;
   }
 
   while (true) rpc->run_event_loop(100);
