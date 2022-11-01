@@ -17,7 +17,7 @@ sudo modprobe ib_ipoib
 sudo modprobe mlx4_ib
 
 cd eRPC
-cmake . -DPERF=OFF -DTRANSPORT=infiniband
+cmake . -DPERF=OFF -DTESTING=OFF -DTRANSPORT=infiniband
 make -j32 install
 
 git clone https://github.com/JayjeetAtGithub/erpc-arrow
