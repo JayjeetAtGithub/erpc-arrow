@@ -14,10 +14,13 @@ void nb_func(void *, void *) {
     delete rpc;
     exit(0);
   } else {
+    char *numr = new char[8];
+    memcpy(numr, nb_resp.buf_, 8);
+    int64_t num_rows = stoi(numr);
     std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_+8, nb_resp.get_data_size());
     std::shared_ptr<arrow::DataType> type = schema->field(3)->type();
     std::shared_ptr<arrow::Array> col_arr = 
-      std::make_shared<arrow::PrimitiveArray>(type, 131072, std::move(buf));
+      std::make_shared<arrow::PrimitiveArray>(type, num_rows, std::move(buf));
     std::cout << nb_resp.get_data_size() << std::endl;
     std::cout << col_arr->ToString() << std::endl;
   }
