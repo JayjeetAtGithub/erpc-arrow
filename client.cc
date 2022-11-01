@@ -22,7 +22,7 @@ void nb_func(void *, void *) {
     std::shared_ptr<arrow::Array> col_arr = 
       std::make_shared<arrow::PrimitiveArray>(type, num_rows, std::move(buf));
     std::cout << nb_resp.get_data_size() << std::endl;
-    std::cout << col_arr->ToString() << std::endl;
+    // std::cout << col_arr->ToString() << std::endl;
   }
 }
 
@@ -45,7 +45,7 @@ int main() {
   rpc->free_msg_buffer(init_req);
   rpc->free_msg_buffer(init_resp);
 
-  for (int i = 0; i < 1400; i++) {
+  for (int i = 0; i < 1401; i++) {
   	nb_req = rpc->alloc_msg_buffer(kLargeMsgSize+8);
   	nb_resp = rpc->alloc_msg_buffer(kLargeMsgSize+8);
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
