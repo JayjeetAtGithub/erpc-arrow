@@ -42,12 +42,10 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
 
     auto &resp = req_handle->dyn_resp_msgbuf_;
     resp  =  rpc->alloc_msg_buffer(num_bytes+sizeof(num_rows));
+    
+    memcpy(resp.buf_, &num_rows, sizeof(num_rows));
+    memcpy(resp.buf_ + sizeof(num_rows), data_buff->data(), num_bytes);
 
-    {
-      MeasureExecutionTime m("copy");
-      memcpy(resp.buf_, &num_rows, sizeof(num_rows));
-      memcpy(resp.buf_ + sizeof(num_rows), data_buff->data(), num_bytes);
-    }
     rpc->enqueue_response(req_handle, &resp);
     rpc->free_msg_buffer(resp);
   } else {
