@@ -30,7 +30,7 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
     resp  =  rpc->alloc_msg_buffer(num_bytes);
     
     rpc->resize_msg_buffer(&resp, num_bytes);
-    sprintf(reinterpret_cast<char*>(resp.buf_), (char*)data_buff->data());
+    memcpy(resp.buf_, data_buff->data(), num_bytes);
     rpc->enqueue_response(req_handle, &resp);
     rpc->free_msg_buffer(resp);
   } else {
