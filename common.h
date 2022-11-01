@@ -15,7 +15,7 @@ static constexpr uint16_t kUDPPort = 31850;
 static constexpr uint8_t kInitRpc = 3;
 static constexpr uint8_t kNextBatchRpc = 4;
 static constexpr size_t kSmallMsgSize = 1;
-static constexpr size_t kLargeMsgSize = 1024*1024*2;
+static constexpr size_t kLargeMsgSize = 1024*1024;
 
 auto schema = arrow::schema({
     arrow::field("VendorID", arrow::int64()),
