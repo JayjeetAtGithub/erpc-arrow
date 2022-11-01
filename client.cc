@@ -10,6 +10,7 @@ erpc::MsgBuffer nb_resp;
 void init_func(void *, void *) { std::cout << "Scan Started" << std::endl; }
 void nb_func(void *, void *) { 
   if (nb_resp.get_data_size() == kSmallMsgSize) {
+    std::cout << "Scan Finished" << std::endl;
     delete rpc;
     exit(0);
   } else {
