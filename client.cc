@@ -50,5 +50,5 @@ int main() {
     rpc->run_event_loop(100);
   }
 
-  // while (true) rpc->run_event_loop(100);
+  while (true) rpc->run_event_loop(100);
 }
