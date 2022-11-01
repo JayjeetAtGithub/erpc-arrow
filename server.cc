@@ -1,9 +1,23 @@
 #include "common.h"
 #include "compute.h"
 
+#include <chrono>
+
 erpc::Rpc<erpc::CTransport> *rpc;
 
 std::shared_ptr<arrow::RecordBatchReader> reader;
+
+class MeasureExecutionTime{
+  private:
+      const std::chrono::steady_clock::time_point begin;
+      const std::string caller;
+  public:
+      MeasureExecutionTime(const std::string& caller):caller(caller),begin(std::chrono::steady_clock::now()){}
+      ~MeasureExecutionTime(){
+          const auto duration=std::chrono::steady_clock::now()-begin;
+          std::cout << (double)std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()/1000<<std::endl;
+      }
+};
 
 void init_req_handler(erpc::ReqHandle *req_handle, void *) {
   cp::ExecContext exec_ctx;
@@ -29,8 +43,11 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
     auto &resp = req_handle->dyn_resp_msgbuf_;
     resp  =  rpc->alloc_msg_buffer(num_bytes+sizeof(num_rows));
 
-    memcpy(resp.buf_, &num_rows, sizeof(num_rows));
-    memcpy(resp.buf_ + sizeof(num_rows), data_buff->data(), num_bytes);
+    {
+      MeasureExecutionTime m("copy");
+      memcpy(resp.buf_, &num_rows, sizeof(num_rows));
+      memcpy(resp.buf_ + sizeof(num_rows), data_buff->data(), num_bytes);
+    }
     rpc->enqueue_response(req_handle, &resp);
     rpc->free_msg_buffer(resp);
   } else {
