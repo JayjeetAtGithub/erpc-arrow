@@ -17,7 +17,7 @@ void init_req_handler(erpc::ReqHandle *req_handle, void *) {
 void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
   std::shared_ptr<arrow::RecordBatch> batch;
   if (reader->ReadNext(&batch).ok() && batch != nullptr) {
-    std::cout << batch->num_rows() << std::endl;
+    size_t num_rows = batch->num_rows();
     std::shared_ptr<arrow::Array> col_arr = batch->column(3);
     arrow::Type::type type = col_arr->type_id();
     int64_t null_count = col_arr->null_count();
@@ -27,10 +27,10 @@ void next_batch_req_handler(erpc::ReqHandle *req_handle, void *) {
     size_t num_bytes = data_buff->size();
 
     auto &resp = req_handle->dyn_resp_msgbuf_;
-    resp  =  rpc->alloc_msg_buffer(1024*1024);
-    
-    // rpc->resize_msg_buffer(&resp, 1024*1024);
-    memcpy(resp.buf_, data_buff->data(), 1024*1024);
+    resp  =  rpc->alloc_msg_buffer(num_bytes+sizeof(num_rows));
+
+    memcpy(resp.buf_, &num_rows, sizeof(num_rows));
+    memcpy(resp.buf_ + sizeof(num_rows), data_buff->data(), num_bytes);
     rpc->enqueue_response(req_handle, &resp);
     rpc->free_msg_buffer(resp);
   } else {
