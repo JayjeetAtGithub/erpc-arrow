@@ -59,5 +59,5 @@ int main() {
     rpc->free_msg_buffer(nb_resp);
   }
 
-  while (true) rpc->run_event_loop(10);
+  while (true) rpc->run_event_loop(1);
 }
