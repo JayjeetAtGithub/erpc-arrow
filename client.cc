@@ -16,7 +16,7 @@ void init_func(void *, void *) {
 
 void nb_func(void *, void *) { 
   if (nb_resp.get_data_size() == kSmallMsgSize) {
-    std::cout << "Read " << total_rows << " rows" << std::endl;
+    std::cout << "Read a total of " << total_rows << " rows" << std::endl;
     delete rpc;
     exit(0);
   } else {
