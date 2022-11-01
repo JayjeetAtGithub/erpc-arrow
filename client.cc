@@ -45,12 +45,13 @@ int main() {
   rpc->free_msg_buffer(init_req);
   rpc->free_msg_buffer(init_resp);
 
-  for (int i = 0; i < 250; i++) {  
+  for (int i = 0; i < 250; i++) {
   	nb_req = rpc->alloc_msg_buffer(kLargeMsgSize+8);
   	nb_resp = rpc->alloc_msg_buffer(kLargeMsgSize+8);
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
     rpc->free_msg_buffer(nb_req);
     rpc->free_msg_buffer(nb_resp);
+    std::cout << "Batch " << i << " Recieved" << std::endl;
   }
 
   while (true) rpc->run_event_loop(100);
