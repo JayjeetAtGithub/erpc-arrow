@@ -28,6 +28,7 @@ void nb_func(void *, void *) {
     std::shared_ptr<arrow::Array> col_arr = 
       std::make_shared<arrow::PrimitiveArray>(type, num_rows, std::move(buf));
     total_rows += num_rows;
+    std::cout << "Read " << total_rows << " rows" << std::endl;
   }
 }
 
