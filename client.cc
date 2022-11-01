@@ -14,10 +14,10 @@ void nb_func(void *, void *) {
     delete rpc;
     exit(0);
   } else {
-    // std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_, nb_resp.get_data_size());
-    // std::shared_ptr<arrow::DataType> type = schema->field(0)->type();
-    // std::shared_ptr<arrow::Array> col_arr = 
-    //   std::make_shared<arrow::PrimitiveArray>(type, 131072, std::move(buf));
+    std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_, nb_resp.get_data_size());
+    std::shared_ptr<arrow::DataType> type = schema->field(0)->type();
+    std::shared_ptr<arrow::Array> col_arr = 
+      std::make_shared<arrow::PrimitiveArray>(type, 131072, std::move(buf));
     std::cout << nb_resp.get_data_size() << std::endl;
   }
 }
