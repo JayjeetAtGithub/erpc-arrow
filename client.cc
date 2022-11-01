@@ -21,7 +21,7 @@ void nb_func(void *, void *) {
     std::shared_ptr<arrow::DataType> type = schema->field(3)->type();
     std::shared_ptr<arrow::Array> col_arr = 
       std::make_shared<arrow::PrimitiveArray>(type, num_rows, std::move(buf));
-    std::cout << nb_resp.get_data_size() << std::endl;
+    // std::cout << nb_resp.get_data_size() << std::endl;
     // std::cout << col_arr->ToString() << std::endl;
   }
 }
