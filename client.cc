@@ -20,13 +20,15 @@ void nb_func(void *, void *) {
     delete rpc;
     exit(0);
   } else {
-    char *numr = new char[8];
-    memcpy(numr, nb_resp.buf_, 8);
-    int64_t num_rows = *(reinterpret_cast<int64_t *>(numr));
-    std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_+8, nb_resp.get_data_size());
+    // char *numr = new char[8];
+    // memcpy(numr, nb_resp.buf_, 8);
+    // int64_t num_rows = *(reinterpret_cast<int64_t *>(numr));
+    // std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_+8, nb_resp.get_data_size());
+    std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_, nb_resp.get_data_size());
+
     std::shared_ptr<arrow::DataType> type = schema->field(3)->type();
     std::shared_ptr<arrow::Array> col_arr = 
-      std::make_shared<arrow::PrimitiveArray>(type, num_rows, std::move(buf));
+      std::make_shared<arrow::PrimitiveArray>(type, 131072, std::move(buf));
     total_rows += num_rows;
     std::cout << "Read " << total_rows << " rows" << std::endl;
   }
@@ -51,7 +53,7 @@ int main() {
   rpc->free_msg_buffer(init_req);
   rpc->free_msg_buffer(init_resp);
 
-  for (int i = 1; i <= 1400; i++) {
+  for (int i = 1; i <= 2; i++) {
   	nb_req = rpc->alloc_msg_buffer(kLargeMsgSize+8);
   	nb_resp = rpc->alloc_msg_buffer(kLargeMsgSize+8);
   	rpc->enqueue_request(session_num, kNextBatchRpc, &nb_req, &nb_resp, nb_func, nullptr);
