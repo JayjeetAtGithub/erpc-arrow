@@ -16,7 +16,7 @@ void nb_func(void *, void *) {
   } else {
     char *numr = new char[8];
     memcpy(numr, nb_resp.buf_, 8);
-    int64_t num_rows = std::stoi(std::string(numr));
+    int64_t num_rows = *(reinterpret_cast<int64_t *>(numr));
     std::shared_ptr<arrow::Buffer> buf = std::make_shared<arrow::Buffer>(nb_resp.buf_+8, nb_resp.get_data_size());
     std::shared_ptr<arrow::DataType> type = schema->field(3)->type();
     std::shared_ptr<arrow::Array> col_arr = 
