@@ -63,7 +63,7 @@ int main() {
   nexus.register_req_func(kInitRpc, init_req_handler);
   nexus.register_req_func(kNextBatchRpc, next_batch_req_handler);
 
-  rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, nullptr);
+  rpc = new erpc::Rpc<erpc::CTransport>(&nexus, nullptr, 0, nullptr, 1);
   while (true) {
     rpc->run_event_loop(1);
   }
